@@ -15,6 +15,21 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials");
         }
+
+        // Check for Admin Override from Environment Variables
+        if (
+          process.env.ADMIN_USERNAME && 
+          process.env.ADMIN_PASSWORD && 
+          credentials.email.toLowerCase() === process.env.ADMIN_USERNAME.toLowerCase() && 
+          credentials.password === process.env.ADMIN_PASSWORD
+        ) {
+          return {
+            id: "system-admin-id",
+            email: process.env.ADMIN_USERNAME,
+            name: "Admin",
+            role: "ADMIN",
+          };
+        }
         
         let user = await prisma.user.findUnique({
           where: { email: credentials.email },
