@@ -1,65 +1,164 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import styles from "./page.module.css";
+
+import { useCurrency } from "@/context/CurrencyContext";
+
+// Mock products
+const featuredProducts = [
+  { id: "1", title: "Ultimate UI Kit", price: 49, description: "A comprehensive UI kit for modern apps." },
+  { id: "2", title: "Next.js Boilerplate", price: 99, description: "Start your SaaS in minutes." },
+  { id: "3", title: "Figma Masterclass", price: 29, description: "Learn to design like a pro." },
+];
+
+const recentProducts = [
+  { id: "4", title: "Notion Life OS", price: 19, description: "Organize your life efficiently." },
+  { id: "5", title: "iOS App Icon Set", price: 15, description: "Beautiful icons for your next app." },
+  { id: "6", title: "React Animations Guide", price: 39, description: "Master Framer Motion and Spring." },
+  { id: "7", title: "Freelance Contract Template", price: 12, description: "Protect your freelance business." },
+];
+
+const popularProducts = [
+  { id: "2", title: "Next.js Boilerplate", price: 99, description: "Start your SaaS in minutes." },
+  { id: "1", title: "Ultimate UI Kit", price: 49, description: "A comprehensive UI kit for modern apps." },
+  { id: "8", title: "Tailwind CSS Components", price: 59, description: "Over 500+ premium components." },
+];
 
 export default function Home() {
+  const { formatPrice, isLoading } = useCurrency();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const joinWaitlist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const renderProductGrid = (products: any[]) => (
+    <div className={styles.productGrid}>
+      {products.map((product) => (
+        <div key={product.id} className={styles.productCard}>
+          <div className={styles.productImage}></div>
+          <div className={styles.productInfo}>
+            <h3 className={styles.productTitle}>{product.title}</h3>
+            <p style={{ color: 'var(--muted-foreground)', fontSize: '0.875rem' }}>
+              {product.description}
+            </p>
+            <div className={styles.productPrice}>
+              <span style={{ opacity: isLoading ? 0.5 : 1 }}>{formatPrice(product.price)}</span>
+              <button className={styles.buyBtn}>Buy Now</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div>
+      <div className={styles.heroWrapper}>
+        <div className="container">
+          <section className={styles.hero}>
+            <h1 className={styles.heroTitle}>Premium Digital Assets for Creators</h1>
+            <p className={styles.heroSubtitle}>
+              Discover curated templates, courses, and tools. Built for quality, trusted by thousands.
+            </p>
+            <a href="#products" className="btn-silver" style={{ marginTop: '1.5rem' }}>
+              Explore Products
+            </a>
+          </section>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+
+      <div className="container">
+        <section id="products" className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Featured Products</h2>
+            <a href="#featured" className={styles.viewAll}>View all</a>
+          </div>
+          {renderProductGrid(featuredProducts)}
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Popular Right Now</h2>
+            <a href="#popular" className={styles.viewAll}>View all</a>
+          </div>
+          {renderProductGrid(popularProducts)}
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Recently Added</h2>
+            <a href="#recent" className={styles.viewAll}>View all</a>
+          </div>
+          {renderProductGrid(recentProducts)}
+        </section>
+
+
+      </div>
+
+      <footer className={styles.footerWrapper}>
+        <div className={`container ${styles.footerContent}`}>
+          <div className={styles.footerColumn}>
+            <div className={styles.footerBrand}>KARTA.</div>
+            <p style={{ color: 'var(--dark-muted-foreground)', fontSize: '0.875rem' }}>
+              Premium digital assets for modern creators.
+            </p>
+          </div>
+          
+          <div className={styles.footerColumn}>
+            <div className={styles.footerHeading}>Pages</div>
+            <div className={styles.footerLinks}>
+              <a href="#">About Us</a>
+              <a href="#">Careers</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+              <a href="#">Contact</a>
+            </div>
+          </div>
+
+          <div className={styles.footerColumn}>
+            <div className={styles.footerHeading}>Social Media</div>
+            <div className={styles.footerLinks}>
+              <a href="#">Twitter / X</a>
+              <a href="#">Instagram</a>
+              <a href="#">LinkedIn</a>
+              <a href="#">YouTube</a>
+            </div>
+          </div>
+
+          <div className={styles.footerColumn}>
+            <div className={styles.footerHeading}>Sell on Karta</div>
+            <div className={styles.footerLinks}>
+              <a href="/become-seller">Become a Seller</a>
+              <a href="#">Seller Guide</a>
+              <a href="#">Seller FAQ</a>
+              <a href="#">Commission & Fees</a>
+              <a href="#">Seller Login</a>
+            </div>
+          </div>
         </div>
-      </main>
+        
+        <div className="container">
+          <div className={styles.footerBottom}>
+            &copy; 2026 Karta. A digital marketplace by Bright Commerce. Developed by ViteRank
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
