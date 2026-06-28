@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Products not found" }, { status: 404 });
     }
 
-    const totalAmount = products.reduce((sum, p) => sum + p.price, 0);
+    const totalAmount = products.reduce((sum: number, p: any) => sum + p.price, 0);
 
     // Hash password and create/find user
     let user = await prisma.user.findUnique({ where: { email } });
