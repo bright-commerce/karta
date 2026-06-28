@@ -27,6 +27,7 @@ model Product {
   price       Float
   fileUrl     String   // internal path like 'storage/product-1.zip'
   imageUrl    String?  // cover image
+  isActive    Boolean  @default(true) // For soft-deleting products
   orders      Order[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -36,8 +37,7 @@ model Order {
   id              String   @id @default(uuid())
   user            User     @relation(fields: [userId], references: [id])
   userId          String
-  product         Product  @relation(fields: [productId], references: [id])
-  productId       String
+  products        Product[]
   amount          Float
   status          String   @default("PENDING") // PENDING, SUCCESS, FAILED
   cashfreeOrderId String?  @unique

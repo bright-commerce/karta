@@ -5,16 +5,21 @@ import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
-    const { productId, email, password } = await req.json();
+    const { productIds, email, password } = await req.json();
 
-    if (!productId || !email || !password) {
-      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+    if (!productIds || !Array.isArray(productIds) || productIds.length === 0 || !email || !password) {
+      return NextResponse.json({ error: "Missing fields or empty cart" }, { status: 400 });
     }
 
-    const product = await prisma.product.findUnique({ where: { id: productId } });
-    if (!product) {
-      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    const products = await prisma.product.findMany({
+      where: { id: { in: productIds } }
+    });
+    
+    if (products.length === 0) {
+      return NextResponse.json({ error: "Products not found" }, { status: 404 });
     }
+
+    const totalAmount = products.reduce((sum, p) => sum + p.price, 0);
 
     // Hash password and create/find user
     let user = await prisma.user.findUnique({ where: { email } });
@@ -32,14 +37,16 @@ export async function POST(req: NextRequest) {
     const order = await prisma.order.create({
       data: {
         userId: user.id,
-        productId: product.id,
-        amount: product.price,
+        amount: totalAmount,
+        products: {
+          connect: products.map(p => ({ id: p.id }))
+        }
       }
     });
 
     // Create Cashfree Order
     const request = {
-      order_amount: product.price,
+      order_amount: totalAmount,
       order_currency: "INR",
       order_id: order.id,
       customer_details: {
@@ -48,13 +55,17 @@ export async function POST(req: NextRequest) {
         customer_phone: "9999999999" // Mock phone, cashfree requires it
       },
       order_meta: {
-        return_url: `${process.env.NEXTAUTH_URL}/checkout/status?order_id=${order.id}`
+        return_url: `${process.env.NEXTAUTH_URL}/my-files`
       }
     };
 
     // In a sandbox environment with mock credentials, Cashfree SDK might throw if app id is mock.
     // If it's literally "mock_app_id", let's return a mock session.
     if (process.env.CASHFREE_APP_ID === "mock_app_id") {
+      await prisma.order.update({
+        where: { id: order.id },
+        data: { status: "SUCCESS" }
+      });
       return NextResponse.json({
         payment_session_id: "mock_session_id",
         order_id: order.id

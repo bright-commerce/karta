@@ -108,6 +108,34 @@
   border-radius: 999px;
   font-size: 0.875rem;
   font-weight: 600;
+  border: none;
+  cursor: pointer;
+  flex: 1;
+}
+
+.cartBtn, .wishlistBtn {
+  background: var(--background);
+  color: var(--foreground);
+  padding: 0.5rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartBtn:hover, .wishlistBtn:hover {
+  background: var(--muted);
+}
+
+.productActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
 }
 
 .sellerWaitlist {
