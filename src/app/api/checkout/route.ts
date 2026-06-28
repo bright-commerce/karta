@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const response = await Cashfree.PGCreateOrder("2022-09-01", request);
+    const response = await (Cashfree as any).PGCreateOrder("2022-09-01", request);
     
     // Save cashfree order id if needed
     await prisma.order.update({
