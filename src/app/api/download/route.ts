@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import fs from "fs";
-import path from "path";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { r2Client, R2_BUCKET_NAME } from "@/lib/r2";
 
 export async function GET(req: NextRequest) {
   try {
@@ -43,26 +44,27 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Product not in this order" }, { status: 404 });
     }
 
-    // Resolve file path safely
-    // Defaulting to our dummy zip if it's missing from DB for testing
-    const fileUrl = product.fileUrl || "storage/product.zip";
-    const filePath = path.join(process.cwd(), fileUrl);
-
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: "File not found on server" }, { status: 404 });
+    // Replace the default with empty string, we assume fileUrl is the R2 object key
+    const fileKey = product.fileUrl;
+    if (!fileKey) {
+      return NextResponse.json({ error: "Product file is not configured." }, { status: 404 });
     }
 
-    const fileBuffer = fs.readFileSync(filePath);
+    try {
+      const command = new GetObjectCommand({
+        Bucket: R2_BUCKET_NAME,
+        Key: fileKey,
+      });
 
-    const response = new NextResponse(fileBuffer, {
-      status: 200,
-      headers: {
-        "Content-Disposition": `attachment; filename="${product.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.zip"`,
-        "Content-Type": "application/zip",
-      }
-    });
-
-    return response;
+      // URL expires in 1 hour (3600 seconds)
+      const presignedUrl = await getSignedUrl(r2Client, command, { expiresIn: 3600 });
+      
+      // Redirect the user to the presigned URL
+      return NextResponse.redirect(presignedUrl);
+    } catch (r2Error) {
+      console.error("R2 Presigned URL Error:", r2Error);
+      return NextResponse.json({ error: "Failed to generate download link" }, { status: 500 });
+    }
 
   } catch (error) {
     console.error("Download Error:", error);
