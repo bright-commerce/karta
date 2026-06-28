@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Payment not successful" }, { status: 402 });
     }
 
-    const product = order.products.find(p => p.id === productId);
+    const product = order.products.find((p: any) => p.id === productId);
     if (!product) {
       return NextResponse.json({ error: "Product not in this order" }, { status: 404 });
     }
