@@ -31,7 +31,7 @@ export default async function AdminFilesPage() {
       <div style={{ marginTop: '4rem' }}>
         <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>Current Linkages</h2>
         <div style={{ display: 'grid', gap: '1rem' }}>
-          {products.map(product => (
+          {products.map((product: any) => (
             <div key={product.id} style={{ padding: '1rem', border: '1px solid var(--border)', borderRadius: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <strong>{product.title}</strong>
