@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     // Create local order
     const order = await prisma.order.create({
       data: {
-        totalAmount,
+        amount: totalAmount,
         status: "PENDING",
         products: {
           connect: products.map((p: any) => ({ id: p.id }))
