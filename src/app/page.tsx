@@ -47,7 +47,7 @@ export default function Home() {
 
   const renderProductGrid = (products: any[]) => (
     <div className={styles.productGrid}>
-      {products.map((product) => (
+      {products.map((product: any) => (
         <div key={product.id} className={styles.productCard}>
           <Link href={`/products/${product.id}`} style={{ display: 'block' }}>
             <div className={styles.productImage}>

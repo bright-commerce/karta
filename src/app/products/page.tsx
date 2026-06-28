@@ -29,7 +29,7 @@ export default function ProductsPage() {
       <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '2rem' }}>All Products</h1>
       
       <div className={styles.productGrid}>
-        {currentProducts.map((product) => (
+        {currentProducts.map((product: any) => (
           <div key={product.id} className={styles.productCard}>
             <Link href={`/products/${product.id}`} style={{ display: 'block' }}>
               <div className={styles.productImage}>

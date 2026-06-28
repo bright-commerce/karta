@@ -30,7 +30,7 @@ export default async function AdminPanel() {
                 </tr>
               </thead>
               <tbody>
-                {waitlist.map((seller) => (
+                {waitlist.map((seller: any) => (
                   <tr key={seller.id} style={{ borderBottom: '1px solid var(--border)' }}>
                     <td style={{ padding: '1rem' }}>{seller.name}</td>
                     <td style={{ padding: '1rem', fontWeight: 600 }}>{seller.businessName}</td>

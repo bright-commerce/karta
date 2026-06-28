@@ -57,8 +57,8 @@ export default async function CheckoutStatusPage({
         <div style={{ textAlign: 'left', background: 'var(--background)', padding: '2rem', borderRadius: '0.75rem', border: '1px solid var(--border)' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem' }}>Your Downloads</h2>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {order.products.map(product => (
+          <div style={{ display: 'grid', gap: '1rem' }}>
+            {order.products.map((product: any) => (
               <div key={product.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border)', borderRadius: '0.5rem' }}>
                 <div>
                   <h3 style={{ fontWeight: 600 }}>{product.title}</h3>
