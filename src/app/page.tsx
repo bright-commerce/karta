@@ -3,6 +3,7 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import ProductGrid from "@/components/ProductGrid";
 import WaitlistForm from "@/components/WaitlistForm";
+import { blogPosts } from "@/data/blog";
 
 export const dynamic = "force-dynamic";
 
@@ -15,11 +16,7 @@ export default async function Home() {
   const popularProducts = allProducts.slice(3, 6);
   const recentProducts = allProducts.slice(0, 3); // Just show newest
 
-  const blogPosts = [
-    { id: "1", title: "How to Monetize AI Prompts in 2026", date: "June 25, 2026", excerpt: "Discover the secrets of crafting and selling AI prompts on digital marketplaces." },
-    { id: "2", title: "Why Notion Templates are the New Gold Rush", date: "June 21, 2026", excerpt: "Learn how creators are making a full-time income by selling Notion OS systems." },
-    { id: "3", title: "Top 5 Lightroom Presets for Moody Photography", date: "June 18, 2026", excerpt: "Elevate your photography game with these stunning aesthetic Lightroom presets." },
-  ];
+  const recentBlogPosts = blogPosts.slice(0, 3);
 
   return (
     <div>
@@ -67,10 +64,10 @@ export default async function Home() {
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Latest on the Blog</h2>
-            <Link href="#blog" className={styles.viewAll}>Read all articles</Link>
+            <Link href="/blog" className={styles.viewAll}>Read all articles</Link>
           </div>
           <div className={styles.productGrid}>
-            {blogPosts.map(post => (
+            {recentBlogPosts.map(post => (
               <div key={post.id} className={styles.productCard} style={{ background: 'var(--background)' }}>
                 <div className={styles.productInfo}>
                   <p style={{ color: 'var(--muted-foreground)', fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.5rem' }}>{post.date}</p>
@@ -78,7 +75,7 @@ export default async function Home() {
                   <p style={{ color: 'var(--muted-foreground)', fontSize: '0.875rem' }}>
                     {post.excerpt}
                   </p>
-                  <Link href={`#blog-${post.id}`} style={{ display: 'inline-block', marginTop: '1rem', color: 'var(--foreground)', fontWeight: 600, fontSize: '0.875rem' }}>Read More &rarr;</Link>
+                  <Link href={`/blog/${post.slug}`} style={{ display: 'inline-block', marginTop: '1rem', color: 'var(--foreground)', fontWeight: 600, fontSize: '0.875rem' }}>Read More &rarr;</Link>
                 </div>
               </div>
             ))}
