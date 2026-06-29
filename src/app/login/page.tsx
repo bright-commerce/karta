@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import styles from "./login.module.css";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -38,22 +39,22 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden font-sans">
+    <div className={styles.loginContainer}>
       {/* Background gradients for premium feel */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/20 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none" />
+      <div className={styles.bgGradient1} />
+      <div className={styles.bgGradient2} />
 
-      <div className="w-full max-w-md bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 relative z-10 animate-fade-in">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-extrabold tracking-tight mb-2 bg-gradient-to-br from-white to-white/50 bg-clip-text text-transparent">
+      <div className={styles.loginCard}>
+        <div className={styles.loginHeader}>
+          <h1 className={styles.loginTitle}>
             Welcome Back
           </h1>
-          <p className="text-white/60 text-sm">Sign in to access the Karta admin dashboard.</p>
+          <p className={styles.loginSubtitle}>Sign in to access the Karta admin dashboard.</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-white/80" htmlFor="email">
+        <form onSubmit={handleLogin}>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel} htmlFor="email">
               Email
             </label>
             <input
@@ -61,14 +62,14 @@ export default function LoginPage() {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300"
+              className={styles.formInput}
               placeholder="admin@karta.com"
               required
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-white/80" htmlFor="password">
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel} htmlFor="password">
               Password
             </label>
             <input
@@ -76,14 +77,14 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300"
+              className={styles.formInput}
               placeholder="••••••••"
               required
             />
           </div>
 
           {error && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-sm text-center">
+            <div className={styles.errorMessage}>
               {error}
             </div>
           )}
@@ -91,12 +92,12 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-white text-black font-semibold rounded-xl px-4 py-3 hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+            className={styles.submitBtn}
           >
             {isLoading ? (
-              <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <svg className={styles.spinner} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className={styles.spinnerCircle} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className={styles.spinnerPath} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
             ) : (
               "Sign In"
@@ -104,16 +105,6 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-      `}} />
     </div>
   );
 }
