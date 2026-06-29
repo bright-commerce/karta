@@ -4,9 +4,17 @@ import ExchangeRateAdmin from "./ExchangeRateAdmin";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPanel() {
-  const waitlist = await prisma.waitlist.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  let waitlist: any[] = [];
+  let dbError = false;
+
+  try {
+    waitlist = await prisma.waitlist.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Failed to fetch waitlist:", error);
+    dbError = true;
+  }
 
   return (
     <div className="container" style={{ padding: '4rem 1rem' }}>
@@ -15,7 +23,11 @@ export default async function AdminPanel() {
       <section>
         <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1rem' }}>Seller Waitlist</h2>
         
-        {waitlist.length === 0 ? (
+        {dbError ? (
+          <div style={{ padding: '1rem', background: 'var(--destructive, #ffcccc)', color: '#990000', borderRadius: '0.5rem', marginBottom: '1rem' }}>
+            <p><strong>Database Error:</strong> Could not connect to the database or the Waitlist table does not exist. Please check your database connection or run migrations.</p>
+          </div>
+        ) : waitlist.length === 0 ? (
           <p style={{ color: 'var(--muted-foreground)' }}>No sellers have joined the waitlist yet.</p>
         ) : (
           <div style={{ overflowX: 'auto' }}>
