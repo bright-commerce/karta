@@ -2,22 +2,51 @@
 
 import { useStore } from "@/context/StoreContext";
 import { useCurrency } from "@/context/CurrencyContext";
-import { mockProducts } from "@/data/products";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function CartPage() {
   const { cart, removeFromCart } = useStore();
   const { formatPrice, isLoading } = useCurrency();
   const router = useRouter();
 
-  const cartItems = cart.map(id => mockProducts.find(p => p.id === id)).filter(Boolean) as typeof mockProducts;
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [loadingItems, setLoadingItems] = useState(true);
+
+  useEffect(() => {
+    async function fetchCartProducts() {
+      if (cart.length === 0) {
+        setCartItems([]);
+        setLoadingItems(false);
+        return;
+      }
+      try {
+        const res = await fetch(`/api/products?ids=${cart.join(",")}`);
+        if (res.ok) {
+          const data = await res.json();
+          // Maintain cart order or just use data
+          setCartItems(data);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoadingItems(false);
+      }
+    }
+    fetchCartProducts();
+  }, [cart]);
+
   const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
 
   return (
     <div className="container" style={{ padding: '4rem 1rem', minHeight: '80vh' }}>
       <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '2rem' }}>Your Cart</h1>
       
-      {cartItems.length === 0 ? (
+      {loadingItems ? (
+        <div style={{ textAlign: 'center', padding: '4rem', background: 'var(--muted)', borderRadius: '1rem' }}>
+          <p style={{ fontSize: '1.25rem', color: 'var(--muted-foreground)' }}>Loading cart...</p>
+        </div>
+      ) : cartItems.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '4rem', background: 'var(--muted)', borderRadius: '1rem' }}>
           <p style={{ fontSize: '1.25rem', color: 'var(--muted-foreground)', marginBottom: '1.5rem' }}>Your cart is empty.</p>
           <button className="btn-primary" onClick={() => router.push('/products')}>Continue Shopping</button>
@@ -29,7 +58,7 @@ export default function CartPage() {
             {cartItems.map((item) => (
               <div key={item.id} style={{ display: 'flex', gap: '1rem', padding: '1.5rem', border: '1px solid var(--border)', borderRadius: '1rem', background: 'var(--background)' }}>
                 <div style={{ width: '120px', height: '80px', background: 'var(--muted)', borderRadius: '0.5rem', overflow: 'hidden' }}>
-                   <img src={item.images[0]} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                   {item.imageUrl && <img src={item.imageUrl} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
                 </div>
                 <div style={{ flex: 1 }}>
                   <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>{item.title}</h3>

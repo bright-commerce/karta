@@ -29,6 +29,7 @@ model Product {
   price       Float
   fileUrl     String   // internal path like 'storage/product-1.zip'
   imageUrl    String?  // cover image
+  category    String   @default("Uncategorized")
   isActive    Boolean  @default(true) // For soft-deleting products
   orders      Order[]
   createdAt   DateTime @default(now())

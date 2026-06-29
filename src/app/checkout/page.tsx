@@ -2,13 +2,12 @@
 
 import { useStore } from '@/context/StoreContext';
 import { useCurrency } from '@/context/CurrencyContext';
-import { mockProducts } from '@/data/products';
 import { useState, useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function CheckoutPage() {
-  const { cart, clearCart } = useStore(); // Note: clearCart needs to be added to StoreContext
+  const { cart, clearCart } = useStore(); 
   const { formatPrice, isLoading: currencyLoading } = useCurrency();
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -18,7 +17,31 @@ export default function CheckoutPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
 
-  const cartItems = cart.map(id => mockProducts.find(p => p.id === id)).filter(Boolean) as typeof mockProducts;
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [loadingItems, setLoadingItems] = useState(true);
+
+  useEffect(() => {
+    async function fetchCartProducts() {
+      if (cart.length === 0) {
+        setCartItems([]);
+        setLoadingItems(false);
+        return;
+      }
+      try {
+        const res = await fetch(`/api/products?ids=${cart.join(",")}`);
+        if (res.ok) {
+          const data = await res.json();
+          setCartItems(data);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoadingItems(false);
+      }
+    }
+    fetchCartProducts();
+  }, [cart]);
+
   const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
 
   useEffect(() => {
@@ -78,6 +101,14 @@ export default function CheckoutPage() {
       setIsProcessing(false);
     }
   };
+
+  if (loadingItems) {
+    return (
+      <div className="container" style={{ padding: '4rem 1rem', minHeight: '60vh', textAlign: 'center' }}>
+        <h2>Loading secure checkout...</h2>
+      </div>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
