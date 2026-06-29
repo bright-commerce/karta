@@ -26,10 +26,10 @@ export default async function AdminPanel() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {stats.map((stat) => (
-          <Link key={stat.label} href={stat.href} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+          <Link key={stat.label} href={stat.href} className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-gray-500 font-medium">{stat.label}</h3>
-              <div className="p-2 bg-gray-50 rounded-lg text-gray-700">
+              <h3 className="text-gray-500 dark:text-gray-400 font-medium">{stat.label}</h3>
+              <div className="p-2 bg-gray-50 dark:bg-gray-950 rounded-lg text-gray-700 dark:text-gray-300">
                 <stat.icon size={20} />
               </div>
             </div>
@@ -38,7 +38,7 @@ export default async function AdminPanel() {
         ))}
       </div>
 
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+      <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
         <ExchangeRateAdmin />
       </div>
     </div>

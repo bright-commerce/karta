@@ -38,7 +38,7 @@ export default function ContactReplyForm({ contactId, email }: { contactId: stri
         value={reply}
         onChange={(e) => setReply(e.target.value)}
         placeholder="Type your reply here..."
-        className="w-full p-3 border border-gray-200 rounded-lg text-sm bg-white"
+        className="w-full p-3 border border-gray-200 dark:border-gray-800 rounded-lg text-sm bg-white dark:bg-gray-900"
         rows={4}
       />
       <button 

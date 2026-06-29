@@ -13,15 +13,15 @@ export default async function ContactsAdminPage() {
       <h1 className="text-3xl font-black mb-8">Contact Submissions</h1>
       
       {contacts.length === 0 ? (
-        <p className="text-gray-500">No contact messages yet.</p>
+        <p className="text-gray-500 dark:text-gray-400">No contact messages yet.</p>
       ) : (
         <div className="grid gap-6">
           {contacts.map((contact) => (
-            <div key={contact.id} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+            <div key={contact.id} className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm">
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="font-bold text-lg">{contact.name}</h3>
-                  <p className="text-sm text-gray-500">{contact.email}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{contact.email}</p>
                 </div>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                   contact.status === 'REPLIED' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
@@ -30,7 +30,7 @@ export default async function ContactsAdminPage() {
                 </span>
               </div>
               
-              <div className="bg-gray-50 p-4 rounded-lg mb-4 text-sm text-gray-800 whitespace-pre-wrap">
+              <div className="bg-gray-50 dark:bg-gray-950 p-4 rounded-lg mb-4 text-sm text-gray-800 whitespace-pre-wrap">
                 {contact.message}
               </div>
 

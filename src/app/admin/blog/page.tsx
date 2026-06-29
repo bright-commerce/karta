@@ -18,26 +18,26 @@ export default async function BlogAdminPage() {
       </div>
       
       {posts.length === 0 ? (
-        <p className="text-gray-500">No blog posts found. Please run the migration script.</p>
+        <p className="text-gray-500 dark:text-gray-400">No blog posts found. Please run the migration script.</p>
       ) : (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="p-4 font-medium text-sm text-gray-500">Title</th>
-                <th className="p-4 font-medium text-sm text-gray-500">Category</th>
-                <th className="p-4 font-medium text-sm text-gray-500">Date</th>
+              <tr className="bg-gray-50 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+                <th className="p-4 font-medium text-sm text-gray-500 dark:text-gray-400">Title</th>
+                <th className="p-4 font-medium text-sm text-gray-500 dark:text-gray-400">Category</th>
+                <th className="p-4 font-medium text-sm text-gray-500 dark:text-gray-400">Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
               {posts.map((post) => (
-                <tr key={post.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={post.id} className="hover:bg-gray-50 dark:bg-gray-950 transition-colors">
                   <td className="p-4">
                     <p className="font-bold">{post.title}</p>
-                    <p className="text-xs text-gray-500 truncate w-64">{post.slug}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate w-64">{post.slug}</p>
                   </td>
-                  <td className="p-4 text-gray-600">{post.category}</td>
-                  <td className="p-4 text-gray-500">{post.date}</td>
+                  <td className="p-4 text-gray-600 dark:text-gray-400">{post.category}</td>
+                  <td className="p-4 text-gray-500 dark:text-gray-400">{post.date}</td>
                 </tr>
               ))}
             </tbody>
