@@ -31,13 +31,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("admin-theme", newTheme);
   };
 
-  if (!mounted) {
-    return <div style={{ visibility: "hidden" }}>{children}</div>;
-  }
-
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className={`admin-wrapper ${theme === "dark" ? "dark" : "light"}`} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <div 
+        className={`admin-wrapper ${theme === "dark" ? "dark" : "light"}`} 
+        style={{ 
+          minHeight: '100vh', 
+          display: 'flex', 
+          flexDirection: 'column',
+          visibility: mounted ? "visible" : "hidden"
+        }}
+      >
         {children}
       </div>
     </ThemeContext.Provider>
