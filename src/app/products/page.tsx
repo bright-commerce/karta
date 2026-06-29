@@ -1,6 +1,6 @@
 import styles from "../page.module.css";
 import Link from "next/link";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import ProductGrid from "@/components/ProductGrid";
 
 export const dynamic = "force-dynamic";
