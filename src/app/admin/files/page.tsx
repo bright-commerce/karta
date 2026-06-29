@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import UploadForm from "./UploadForm"; // Client component
+import AssetUploadForm from "./AssetUploadForm"; // Client component
 
 export default async function AdminFilesPage() {
   const session = await getServerSession(authOptions);
@@ -18,14 +19,23 @@ export default async function AdminFilesPage() {
 
   return (
     <div className="container" style={{ padding: '4rem 1rem', minHeight: '80vh' }}>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>Admin File Manager</h1>
+      <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>Media & File Manager</h1>
       <p style={{ color: 'var(--muted-foreground)', fontSize: '1.125rem', marginBottom: '3rem' }}>
-        Upload digital files to Cloudflare R2 and link them to products.
+        Manage public assets (images/videos) and private digital product downloads using Cloudflare R2.
       </p>
 
-      <div style={{ background: 'var(--background)', padding: '2rem', border: '1px solid var(--border)', borderRadius: '1rem', maxWidth: '600px' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>Upload New File</h2>
-        <UploadForm products={products} />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+        <div style={{ background: 'var(--background)', padding: '2rem', border: '1px solid var(--border)', borderRadius: '1rem' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>1. Upload Public Asset</h2>
+          <p style={{ color: 'var(--muted-foreground)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Upload images or videos here to get a public URL for your blog posts and product images.</p>
+          <AssetUploadForm />
+        </div>
+
+        <div style={{ background: 'var(--background)', padding: '2rem', border: '1px solid var(--border)', borderRadius: '1rem' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>2. Upload Secure Download</h2>
+          <p style={{ color: 'var(--muted-foreground)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Upload ZIP/PDF files and link them directly to a product for secure checkout delivery.</p>
+          <UploadForm products={products} />
+        </div>
       </div>
 
       <div style={{ marginTop: '4rem' }}>

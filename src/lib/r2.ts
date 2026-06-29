@@ -13,4 +13,6 @@ export const r2Client = new S3Client({
   },
 });
 
-export const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || "";
+export const R2_DOWNLOAD_BUCKET_NAME = process.env.R2_DOWNLOAD_BUCKET_NAME || process.env.R2_BUCKET_NAME || "";
+export const R2_ASSETS_BUCKET_NAME = process.env.R2_ASSETS_BUCKET_NAME || "";
+export const R2_ASSETS_PUBLIC_URL = process.env.R2_ASSETS_PUBLIC_URL || "https://your-public-r2-url.com";

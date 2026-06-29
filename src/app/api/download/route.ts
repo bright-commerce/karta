@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { r2Client, R2_BUCKET_NAME } from "@/lib/r2";
+import { r2Client, R2_DOWNLOAD_BUCKET_NAME } from "@/lib/r2";
 
 export async function GET(req: NextRequest) {
   try {
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
 
     try {
       const command = new GetObjectCommand({
-        Bucket: R2_BUCKET_NAME,
+        Bucket: R2_DOWNLOAD_BUCKET_NAME,
         Key: fileKey,
       });
 

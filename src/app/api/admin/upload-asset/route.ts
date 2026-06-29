@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { r2Client, R2_DOWNLOAD_BUCKET_NAME } from "@/lib/r2";
+import { r2Client, R2_ASSETS_BUCKET_NAME, R2_ASSETS_PUBLIC_URL } from "@/lib/r2";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 export async function POST(req: NextRequest) {
@@ -14,10 +13,9 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
-    const productId = formData.get("productId") as string | null;
 
-    if (!file || !productId) {
-      return NextResponse.json({ error: "Missing file or productId" }, { status: 400 });
+    if (!file) {
+      return NextResponse.json({ error: "Missing file" }, { status: 400 });
     }
 
     // Convert file to buffer
@@ -26,11 +24,12 @@ export async function POST(req: NextRequest) {
 
     // Generate a unique object key for R2
     const fileExtension = file.name.split('.').pop();
-    const objectKey = `products/${productId}-${Date.now()}.${fileExtension}`;
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const objectKey = `media/${Date.now()}-${randomString}.${fileExtension}`;
 
     // Upload to Cloudflare R2
     const command = new PutObjectCommand({
-      Bucket: R2_DOWNLOAD_BUCKET_NAME,
+      Bucket: R2_ASSETS_BUCKET_NAME,
       Key: objectKey,
       Body: buffer,
       ContentType: file.type || "application/octet-stream",
@@ -38,20 +37,19 @@ export async function POST(req: NextRequest) {
 
     await r2Client.send(command);
 
-    // Update product in DB
-    const updatedProduct = await prisma.product.update({
-      where: { id: productId },
-      data: { fileUrl: objectKey }
-    });
+    // Return the public URL
+    // Ensure the public URL doesn't have a trailing slash before appending
+    const baseUrl = R2_ASSETS_PUBLIC_URL.replace(/\/$/, "");
+    const publicUrl = `${baseUrl}/${objectKey}`;
 
     return NextResponse.json({ 
       success: true, 
-      message: "File uploaded to R2 and linked to product",
-      objectKey 
+      message: "Asset uploaded successfully to public R2 bucket",
+      publicUrl 
     });
 
   } catch (error) {
-    console.error("Admin Upload Error:", error);
+    console.error("Asset Upload Error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
