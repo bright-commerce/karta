@@ -127,7 +127,7 @@ export default async function Home() {
         
         <div className="container">
           <div className={styles.footerBottom}>
-            &copy; 2026 Karta. A digital marketplace by Bright Commerce. Developed by ViteRank
+            &copy; 2026 Karta. A digital marketplace by Bright Commerce. Developed by <a href="https://viterank.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>ViteRank</a>
           </div>
         </div>
       </footer>
