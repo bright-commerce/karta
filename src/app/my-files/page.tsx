@@ -25,8 +25,8 @@ export default async function MyFilesPage() {
   // A user might have bought the same product in multiple orders, we can just show it once
   // or show all purchased instances. Let's show all distinct products.
   const purchasedProducts = new Map();
-  orders.forEach(order => {
-    order.products.forEach(product => {
+  orders.forEach((order: any) => {
+    order.products.forEach((product: any) => {
       if (!purchasedProducts.has(product.id)) {
         purchasedProducts.set(product.id, {
           product,

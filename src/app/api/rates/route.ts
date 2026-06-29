@@ -16,7 +16,7 @@ export async function GET() {
     const rates: Record<string, number> = { ...defaultRates };
     
     // Override with DB values
-    ratesFromDb.forEach(r => {
+    ratesFromDb.forEach((r: any) => {
       rates[r.currency] = r.rate;
     });
 
