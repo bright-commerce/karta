@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import styles from "../app/page.module.css";
+import styles from "../app/(frontend)/page.module.css";
 
 export default function WaitlistForm() {
   const [email, setEmail] = useState("");

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCurrency } from "@/context/CurrencyContext";
 import { useStore } from "@/context/StoreContext";
-import styles from "../app/page.module.css";
+import styles from "../app/(frontend)/page.module.css";
 
 export default function ProductGrid({ products }: { products: any[] }) {
   const { formatPrice, isLoading } = useCurrency();
