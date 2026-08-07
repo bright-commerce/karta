@@ -15,7 +15,7 @@ import {
   MessageSquare,
   LogOut
 } from "lucide-react";
-import "./admin.css";
+
 import { ThemeProvider } from "./ThemeProvider";
 import { ThemeToggle } from "./ThemeToggle";
 

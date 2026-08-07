@@ -1,6 +1,0 @@
-@import "tailwindcss";
-@custom-variant dark (&:is(.dark *));
-
-.admin-wrapper.dark {
-  color-scheme: dark;
-}

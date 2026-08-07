@@ -31,18 +31,18 @@ export default async function AdminPanel() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <Link key={stat.label} href={stat.href} className="group relative bg-white dark:bg-[#111113] p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 overflow-hidden">
-            <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-5 rounded-bl-full -z-10 group-hover:scale-110 transition-transform duration-500`}></div>
+          <Link key={stat.label} href={stat.href} className="group relative bg-white/60 dark:bg-[#111113]/60 backdrop-blur-md p-6 rounded-3xl border border-white/40 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 overflow-hidden">
+            <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${stat.color} opacity-[0.08] dark:opacity-10 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500`}></div>
             
-            <div className="flex items-start justify-between mb-4">
-              <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color} text-white shadow-lg`}>
-                <stat.icon size={22} className="opacity-90" />
+            <div className="flex items-center justify-between mb-6">
+              <div className={`p-3.5 rounded-2xl bg-gradient-to-br ${stat.color} text-white shadow-lg shadow-black/10`}>
+                <stat.icon size={24} className="opacity-95" />
               </div>
             </div>
             
             <div>
-              <p className="text-4xl font-black text-gray-900 dark:text-white mb-1">{stat.value}</p>
-              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{stat.label}</h3>
+              <p className="text-5xl font-black tracking-tight text-gray-900 dark:text-white mb-2">{stat.value}</p>
+              <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{stat.label}</h3>
             </div>
           </Link>
         ))}
