@@ -28,7 +28,13 @@ export default function LoginPage() {
         setError("Invalid email or password");
       } else {
         // Redirect to admin panel after successful login
-        router.push("/admin");
+        // Check if we have an isolated admin container URL set in env
+        const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL;
+        if (adminUrl) {
+          window.location.href = `${adminUrl.replace(/\/$/, '')}/admin`;
+        } else {
+          router.push("/admin");
+        }
         router.refresh();
       }
     } catch (err) {
