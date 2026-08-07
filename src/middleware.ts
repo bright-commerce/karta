@@ -18,13 +18,13 @@ export function middleware(request: NextRequest) {
   if (role === 'ADMIN') {
     // If this container is deployed as ADMIN, block everything except admin routes
     if (!path.startsWith('/admin') && !path.startsWith('/api/admin')) {
-      // Return 404 for non-admin routes to effectively isolate this container
-      return new NextResponse('Not Found (This container is configured for Admin routes only)', { status: 404 });
+      // Return standard 404 to effectively isolate this container securely
+      return NextResponse.rewrite(new URL('/404', request.url));
     }
   } else if (role === 'SELLER') {
     // If this container is deployed as SELLER, block everything except seller routes
     if (!path.startsWith('/seller') && !path.startsWith('/api/seller')) {
-      return new NextResponse('Not Found (This container is configured for Seller routes only)', { status: 404 });
+      return NextResponse.rewrite(new URL('/404', request.url));
     }
   } else {
     // Default STOREFRONT mode: Block admin and seller routes
@@ -34,7 +34,7 @@ export function middleware(request: NextRequest) {
       path.startsWith('/api/admin') || 
       path.startsWith('/api/seller')
     ) {
-      return new NextResponse('Not Found (This container is configured for Storefront routes only)', { status: 404 });
+      return NextResponse.rewrite(new URL('/404', request.url));
     }
   }
 
