@@ -22,32 +22,46 @@ export default function ActivityChart() {
         >
           <defs>
             <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#111827" stopOpacity={0.15}/>
-              <stop offset="95%" stopColor="#111827" stopOpacity={0}/>
+              <stop offset="5%" stopColor="#3699FF" stopOpacity={0.4}/>
+              <stop offset="95%" stopColor="#3699FF" stopOpacity={0}/>
             </linearGradient>
-            <linearGradient id="colorSalesDark" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#F9FAFB" stopOpacity={0.15}/>
-              <stop offset="95%" stopColor="#F9FAFB" stopOpacity={0}/>
+            <linearGradient id="colorVisits" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#FFA800" stopOpacity={0.4}/>
+              <stop offset="95%" stopColor="#FFA800" stopOpacity={0}/>
             </linearGradient>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(156, 163, 175, 0.15)" />
-          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#9CA3AF', fontSize: 11, fontWeight: 500}} dy={10} />
-          <YAxis axisLine={false} tickLine={false} tick={{fill: '#9CA3AF', fontSize: 11, fontWeight: 500}} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255, 255, 255, 0.05)" />
+          <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#6c7293', fontSize: 11, fontWeight: 500}} dy={10} />
+          <YAxis axisLine={false} tickLine={false} tick={{fill: '#6c7293', fontSize: 11, fontWeight: 500}} />
           <Tooltip 
-            contentStyle={{ backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid #E5E7EB', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)' }}
-            itemStyle={{ color: '#111827', fontWeight: 'bold', fontSize: '13px' }}
-            labelStyle={{ color: '#6B7280', fontSize: '12px', marginBottom: '4px' }}
-            cursor={{ stroke: '#9CA3AF', strokeWidth: 1, strokeDasharray: '4 4' }}
+            contentStyle={{ backgroundColor: '#1E1E2D', borderRadius: '8px', border: '1px solid #2B2B40', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)' }}
+            itemStyle={{ color: '#ffffff', fontWeight: 'bold', fontSize: '13px' }}
+            labelStyle={{ color: '#6c7293', fontSize: '12px', marginBottom: '4px' }}
+            cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1, strokeDasharray: '4 4' }}
+          />
+          <Area 
+            type="monotone" 
+            dataKey="visits" 
+            stroke="#FFA800" 
+            strokeWidth={3} 
+            fillOpacity={1} 
+            fill="url(#colorVisits)" 
+            activeDot={{ r: 5, strokeWidth: 2, stroke: '#1E1E2D', fill: '#FFA800' }}
+            style={{ filter: "url(#glow)" }}
           />
           <Area 
             type="monotone" 
             dataKey="sales" 
-            stroke="currentColor" 
-            className="text-gray-900 dark:text-gray-100" 
-            strokeWidth={2} 
+            stroke="#3699FF" 
+            strokeWidth={3} 
             fillOpacity={1} 
             fill="url(#colorSales)" 
-            activeDot={{ r: 4, strokeWidth: 0, fill: '#111827' }}
+            activeDot={{ r: 5, strokeWidth: 2, stroke: '#1E1E2D', fill: '#3699FF' }}
+            style={{ filter: "url(#glow)" }}
           />
         </AreaChart>
       </ResponsiveContainer>

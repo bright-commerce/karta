@@ -5,80 +5,96 @@ import { Users, Package, ShoppingCart, MessageSquare, Activity, DollarSign, Arro
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
+import OrderStatusChart from "./OrderStatusChart";
+import { Users, Package, ShoppingCart, DollarSign } from "lucide-react";
 
-export default async function AdminPanel() {
-  const [userCount, productCount, orderCount, unreadContacts] = await Promise.all([
-    prisma.user.count(),
-    prisma.product.count(),
-    prisma.order.count(),
-    prisma.contactSubmission.count({ where: { status: "UNREAD" } })
-  ]);
-
+export default function AdminDashboard() {
   const stats = [
-    { label: "Total Users", value: userCount, icon: Users, href: "/admin/users", color: "text-blue-500", bg: "bg-blue-500/10" },
-    { label: "Products", value: productCount, icon: Package, href: "/admin/products", color: "text-purple-500", bg: "bg-purple-500/10" },
-    { label: "Orders", value: orderCount, icon: ShoppingCart, href: "/admin/orders", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-    { label: "Unread Messages", value: unreadContacts, icon: MessageSquare, href: "/admin/contacts", color: "text-rose-500", bg: "bg-rose-500/10" },
+    { label: "Total Orders", value: "8052", icon: ShoppingCart, color: "text-[#3699FF]", bg: "bg-[#3699FF]/10", change: "+25%" },
+    { label: "Total Revenue", value: "$6.2K", icon: DollarSign, color: "text-[#F64E60]", bg: "bg-[#F64E60]/10", change: "+15%" },
+    { label: "New Users", value: "1.3K", icon: Users, color: "text-[#1BC5BD]", bg: "bg-[#1BC5BD]/10", change: "-10%" },
+    { label: "Sold Items", value: "956", icon: Package, color: "text-[#FFA800]", bg: "bg-[#FFA800]/10", change: "-14%" },
   ];
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Dashboard Overview</h1>
-          <p className="text-[13px] text-gray-500 mt-1">Here's a summary of what's happening today.</p>
-        </div>
-      </div>
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <Link key={stat.label} href={stat.href} className="group bg-white dark:bg-[#0A0A0B] p-5 border border-gray-200 dark:border-[#27272A] rounded-lg hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-gray-500 dark:text-gray-400">
-                <stat.icon size={18} />
-              </div>
-              <ArrowUpRight size={16} className="text-gray-300 dark:text-gray-600 group-hover:text-black dark:group-hover:text-white transition-colors" />
-            </div>
-            <div>
-              <p className="text-[28px] font-bold tracking-tight text-gray-900 dark:text-white leading-none mb-1.5">{stat.value}</p>
-              <h3 className="text-[12px] font-medium text-gray-500 dark:text-gray-400">{stat.label}</h3>
-            </div>
-          </Link>
-        ))}
-      </div>
-
+      {/* Top Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Activity Chart Area */}
-        <div className="lg:col-span-2 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-[#27272A] rounded-lg flex flex-col">
-          <div className="p-5 border-b border-gray-200 dark:border-[#27272A] flex items-center justify-between">
-            <div className="flex items-center gap-2 text-gray-900 dark:text-white">
-              <Activity size={16} />
-              <h2 className="text-[14px] font-bold">Recent Activity</h2>
+        {/* Activity Chart (Sales Overview) */}
+        <div className="lg:col-span-2 bg-[#1E1E2D] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] flex flex-col">
+          <div className="p-5 flex items-center justify-between border-b border-[#2B2B40]">
+            <h2 className="text-[15px] font-semibold text-white">Sales Overview</h2>
+            <div className="flex gap-4">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-1.5 rounded-full bg-[#FFA800]"></span>
+                <span className="text-[11px] text-[#6c7293]">Visits</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-1.5 rounded-full bg-[#3699FF]"></span>
+                <span className="text-[11px] text-[#6c7293]">Sales</span>
+              </div>
             </div>
-            <select className="bg-transparent border border-gray-200 dark:border-[#27272A] text-[12px] rounded px-2 py-1 text-gray-600 dark:text-gray-300 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500">
-              <option>Last 7 days</option>
-              <option>Last 30 days</option>
-            </select>
           </div>
-          <div className="flex-1 p-6 min-h-[300px]">
+          <div className="flex-1 p-5 min-h-[300px]">
             <ActivityChart />
           </div>
         </div>
-        
-        {/* Exchange Rates Area */}
-        <div className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-[#27272A] rounded-lg flex flex-col">
-          <div className="p-5 border-b border-gray-200 dark:border-[#27272A] flex items-center gap-2 text-gray-900 dark:text-white">
-            <DollarSign size={16} />
-            <h2 className="text-[14px] font-bold">Exchange Rates</h2>
+
+        {/* Order Status Bar Chart */}
+        <div className="bg-[#1E1E2D] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] flex flex-col">
+          <div className="p-5 flex items-center justify-between border-b border-[#2B2B40]">
+            <h2 className="text-[15px] font-semibold text-white">Order Status</h2>
           </div>
-          <div className="p-5 flex-1">
+          <div className="flex-1 p-5">
+            <OrderStatusChart />
+          </div>
+        </div>
+
+      </div>
+
+      {/* Stats Cards Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat) => (
+          <div key={stat.label} className="bg-[#1E1E2D] p-5 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)] flex flex-col justify-between group hover:-translate-y-1 transition-transform cursor-pointer">
+            <div className="flex justify-between items-start mb-6">
+              <div>
+                <h3 className="text-[12px] font-medium text-[#6c7293] mb-1">{stat.label}</h3>
+                <p className="text-[22px] font-bold text-white leading-none">{stat.value}</p>
+              </div>
+              <div className={`p-2.5 rounded-lg ${stat.bg} ${stat.color}`}>
+                <stat.icon size={20} />
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div className="flex gap-1 h-6 items-end">
+                {/* Fake mini-chart lines */}
+                {[...Array(12)].map((_, i) => (
+                  <div key={i} className={`w-1 rounded-t-sm ${stat.color.replace('text-', 'bg-')} opacity-80`} style={{ height: `${Math.random() * 100}%` }}></div>
+                ))}
+              </div>
+              <span className={`text-[11px] font-bold ${stat.change.startsWith('+') ? 'text-[#1BC5BD]' : 'text-[#F64E60]'}`}>
+                {stat.change}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom Row: Exchange Rates */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-[#1E1E2D] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)]">
+          <div className="p-5 border-b border-[#2B2B40] flex items-center gap-2">
+            <h2 className="text-[15px] font-semibold text-white">Live Exchange Rates</h2>
+          </div>
+          <div className="p-5">
             <ExchangeRateAdmin />
           </div>
         </div>
-        
       </div>
+
     </div>
   );
 }

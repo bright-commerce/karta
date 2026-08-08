@@ -54,17 +54,17 @@ export default function ExchangeRateAdmin() {
 
   return (
     <div className="h-full flex flex-col justify-center">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {['INR', 'GBP', 'EUR'].map((currency) => {
           return (
-            <div key={currency} className="group flex flex-col p-4 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-[#27272A] rounded-lg hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
+            <div key={currency} className="group flex flex-col p-5 bg-[#151521] border border-[#2B2B40] rounded-xl hover:border-[#3699FF] transition-colors">
               <div className="flex items-center justify-between mb-4">
-                <span className="px-2 py-0.5 text-[11px] font-bold bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-[#27272A] rounded text-gray-900 dark:text-gray-100">
+                <span className="px-2 py-0.5 text-[11px] font-bold bg-[#1E1E2D] border border-[#2B2B40] rounded text-white tracking-widest">
                   {currency}
                 </span>
                 <button 
                   onClick={() => handleUpdate(currency)}
-                  className="text-gray-400 hover:text-black dark:hover:text-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                  className="text-[#6c7293] hover:text-[#3699FF] transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                   title="Edit Rate"
                 >
                   <Edit2 size={14} />
@@ -72,15 +72,15 @@ export default function ExchangeRateAdmin() {
               </div>
               
               <div>
-                <p className="text-[24px] font-bold text-gray-900 dark:text-white tracking-tight leading-none mb-1">
+                <p className="text-[26px] font-bold text-white tracking-tight leading-none mb-1.5">
                   {rates[currency] || 'N/A'}
                 </p>
-                <p className="text-[11px] font-medium text-gray-500">Base: 1 USD</p>
+                <p className="text-[11px] font-medium text-[#6c7293]">Base: 1 USD</p>
               </div>
               
               <button 
                 onClick={() => handleUpdate(currency)}
-                className="mt-4 w-full py-1.5 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-[#27272A] text-gray-700 dark:text-gray-300 text-[12px] font-medium rounded hover:bg-gray-50 dark:hover:bg-[#18181B] transition-colors sm:hidden group-hover:block"
+                className="mt-5 w-full py-1.5 bg-[#1E1E2D] border border-[#2B2B40] text-white text-[12px] font-medium rounded hover:bg-[#3699FF] hover:border-[#3699FF] transition-colors sm:hidden group-hover:block"
               >
                 Update
               </button>
@@ -88,13 +88,13 @@ export default function ExchangeRateAdmin() {
           );
         })}
       </div>
-      <div className="mt-6 flex justify-end">
+      <div className="mt-8 flex justify-end">
         <button 
           onClick={fetchRates}
-          className="flex items-center gap-2 text-[12px] font-semibold text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors border border-gray-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A0B] px-3 py-1.5 rounded"
+          className="flex items-center gap-2 text-[12px] font-semibold text-[#6c7293] hover:text-white transition-colors border border-[#2B2B40] bg-[#151521] px-4 py-2 rounded-lg hover:border-[#3699FF]"
         >
-          <RefreshCw size={14} className={isLoading ? "animate-spin" : ""} />
-          Sync
+          <RefreshCw size={14} className={isLoading ? "animate-spin text-[#3699FF]" : ""} />
+          Sync Rates
         </button>
       </div>
     </div>

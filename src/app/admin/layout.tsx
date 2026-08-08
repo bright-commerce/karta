@@ -45,28 +45,28 @@ export default async function AdminLayout({
 
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen bg-[#F9FAFB] dark:bg-[#0A0A0B] text-gray-900 dark:text-gray-100 font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      <div className="flex min-h-screen bg-[#151521] text-gray-300 font-sans selection:bg-[#3699FF] selection:text-white">
         
-        {/* Minimalist Sidebar */}
-        <aside className="w-64 bg-white dark:bg-[#0A0A0B] border-r border-gray-200 dark:border-[#27272A] flex flex-col fixed inset-y-0 left-0 z-50">
-          <div className="h-16 border-b border-gray-200 dark:border-[#27272A] flex items-center px-6 shrink-0">
-            <Link href="/admin" className="text-lg font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-2">
-              <div className="w-6 h-6 bg-black dark:bg-white text-white dark:text-black rounded-md flex items-center justify-center">
-                <span className="text-[10px] font-black">K</span>
+        {/* Rocker Sidebar */}
+        <aside className="w-64 bg-[#1E1E2D] flex flex-col fixed inset-y-0 left-0 z-50 shadow-[5px_0_15px_rgba(0,0,0,0.15)]">
+          <div className="h-16 flex items-center px-6 shrink-0 mt-2 mb-2">
+            <Link href="/admin" className="text-xl font-bold tracking-wide text-white flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center">
+                <span className="text-xs font-black">R</span>
               </div>
-              Karta <span className="text-gray-500 font-normal">Admin</span>
+              Rocker
             </Link>
           </div>
           
-          <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-0.5 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-[#27272A]">
-            <p className="px-2 text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Overview</p>
+          <nav className="flex-1 overflow-y-auto py-4 px-4 space-y-1 scrollbar-thin scrollbar-thumb-[#323248] hover:scrollbar-thumb-[#4A4A63] scrollbar-track-transparent">
+            <p className="px-3 text-[11px] font-medium text-[#6c7293] uppercase tracking-wider mb-4 mt-2">Dashboard</p>
             {navItems.map((item) => (
               <Link 
                 key={item.name} 
                 href={item.href}
-                className="group flex items-center gap-3 px-2 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#18181B] transition-colors"
+                className="group flex items-center gap-3 px-3 py-2.5 rounded-md text-[13.5px] font-medium text-[#92929F] hover:text-white hover:bg-[#1B1B29] transition-all"
               >
-                <item.icon size={16} className="shrink-0 text-gray-400 group-hover:text-black dark:group-hover:text-white transition-colors" />
+                <item.icon size={18} className="shrink-0 text-[#92929F] group-hover:text-white transition-colors" />
                 {item.name}
               </Link>
             ))}
@@ -76,34 +76,41 @@ export default async function AdminLayout({
         {/* Main Content Area */}
         <div className="flex-1 ml-64 flex flex-col min-h-screen">
           
-          {/* Minimalist Top Navbar */}
-          <header className="h-16 bg-white dark:bg-[#0A0A0B] border-b border-gray-200 dark:border-[#27272A] sticky top-0 z-40 px-8 flex items-center justify-end gap-5 shrink-0">
-            <button className="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors relative">
-              <Bell size={18} />
-              <span className="absolute top-0 right-0 w-1.5 h-1.5 bg-black dark:bg-white rounded-full"></span>
-            </button>
+          {/* Rocker Top Navbar */}
+          <header className="h-16 bg-[#1E1E2D] sticky top-0 z-40 px-6 flex items-center justify-between shrink-0 shadow-[0_5px_15px_rgba(0,0,0,0.15)]">
             
-            <div className="w-px h-4 bg-gray-200 dark:bg-[#27272A]"></div>
-            
-            <ThemeToggle />
-            
-            <div className="flex items-center gap-3 pl-2">
-              <div className="text-right hidden sm:block">
-                <p className="text-[13px] font-semibold text-gray-900 dark:text-white leading-tight">Administrator</p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400">{session.user.email}</p>
+            {/* Left side (Search placeholder) */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 bg-[#151521] px-4 py-2 rounded-md border border-[#2B2B40] text-[#92929F] focus-within:border-[#3699FF] transition-colors w-64">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" placeholder="Search" className="bg-transparent border-none outline-none text-[13px] w-full placeholder-[#6c7293]" />
               </div>
-              <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#18181B] border border-gray-200 dark:border-[#27272A] flex items-center justify-center font-bold text-[11px] text-black dark:text-white">
-                AD
+            </div>
+
+            {/* Right side */}
+            <div className="flex items-center gap-4">
+              <button className="text-[#92929F] hover:text-[#3699FF] transition-colors relative">
+                <Bell size={18} />
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#F64E60] rounded-full border border-[#1E1E2D]"></span>
+              </button>
+              
+              <ThemeToggle />
+              
+              <div className="flex items-center gap-3 ml-2 cursor-pointer group">
+                <div className="w-8 h-8 rounded bg-[#3699FF] flex items-center justify-center font-bold text-[12px] text-white">
+                  AD
+                </div>
+                <div className="hidden sm:block">
+                  <p className="text-[13px] font-semibold text-white leading-tight group-hover:text-[#3699FF] transition-colors">Pauline Seitz</p>
+                  <p className="text-[11px] text-[#92929F]">Administrator</p>
+                </div>
               </div>
-              <a href="/api/auth/signout" className="ml-2 text-gray-400 hover:text-red-500 transition-colors">
-                <LogOut size={16} />
-              </a>
             </div>
           </header>
 
           {/* Page Content */}
-          <main className="flex-1 p-8 lg:p-12 overflow-x-hidden">
-            <div className="max-w-6xl mx-auto">
+          <main className="flex-1 p-6 md:p-8 overflow-x-hidden">
+            <div className="max-w-[1400px] mx-auto">
               {children}
             </div>
           </main>
