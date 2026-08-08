@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import RoleSelect from "./RoleSelect";
 
 export const dynamic = "force-dynamic";
 
@@ -32,9 +33,7 @@ export default async function UsersAdminPage() {
                   <td className="p-4 text-xs font-mono text-gray-500 dark:text-gray-400">{user.id}</td>
                   <td className="p-4 font-medium">{user.email}</td>
                   <td className="p-4">
-                    <span className="px-2 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-bold">
-                      {user.role}
-                    </span>
+                    <RoleSelect userId={user.id} currentRole={user.role} />
                   </td>
                   <td className="p-4 font-semibold">{user._count.orders}</td>
                   <td className="p-4 text-gray-500 dark:text-gray-400">{new Date(user.createdAt).toLocaleDateString()}</td>

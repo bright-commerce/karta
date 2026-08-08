@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +10,12 @@ export default async function SellersAdminPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-black mb-8">Seller Waitlist</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-black">Seller Waitlist</h1>
+        <Link href="/admin/sellers/new" className="bg-[#3699FF] text-white px-4 py-2 rounded-lg font-medium text-sm hover:opacity-90">
+          + Add Seller
+        </Link>
+      </div>
       
       {waitlist.length === 0 ? (
         <p className="text-gray-500 dark:text-gray-400">No sellers have joined the waitlist yet.</p>
