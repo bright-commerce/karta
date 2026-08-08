@@ -22,42 +22,42 @@ export default async function AdminPanel() {
   ];
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">Dashboard Overview</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Here's a summary of what's happening today.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Dashboard Overview</h1>
+          <p className="text-[13px] text-gray-500 mt-1">Here's a summary of what's happening today.</p>
         </div>
       </div>
       
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <Link key={stat.label} href={stat.href} className="group relative bg-white dark:bg-[#111113] p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:shadow-indigo-500/5 hover:-translate-y-1 transition-all duration-300">
+          <Link key={stat.label} href={stat.href} className="group bg-white dark:bg-[#0A0A0B] p-5 border border-gray-200 dark:border-[#27272A] rounded-lg hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
             <div className="flex items-center justify-between mb-4">
-              <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
-                <stat.icon size={22} strokeWidth={2.5} />
+              <div className="text-gray-500 dark:text-gray-400">
+                <stat.icon size={18} />
               </div>
-              <ArrowUpRight size={20} className="text-gray-300 dark:text-gray-600 group-hover:text-indigo-500 transition-colors" />
+              <ArrowUpRight size={16} className="text-gray-300 dark:text-gray-600 group-hover:text-black dark:group-hover:text-white transition-colors" />
             </div>
             <div>
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{stat.label}</h3>
-              <p className="text-4xl font-black tracking-tight text-gray-900 dark:text-white">{stat.value}</p>
+              <p className="text-[28px] font-bold tracking-tight text-gray-900 dark:text-white leading-none mb-1.5">{stat.value}</p>
+              <h3 className="text-[12px] font-medium text-gray-500 dark:text-gray-400">{stat.label}</h3>
             </div>
           </Link>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Activity Chart Area */}
-        <div className="lg:col-span-2 bg-white dark:bg-[#111113] rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col">
-          <div className="p-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Activity className="text-indigo-500" size={20} />
-              <h2 className="text-lg font-bold text-gray-900 dark:text-white">Recent Activity</h2>
+        <div className="lg:col-span-2 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-[#27272A] rounded-lg flex flex-col">
+          <div className="p-5 border-b border-gray-200 dark:border-[#27272A] flex items-center justify-between">
+            <div className="flex items-center gap-2 text-gray-900 dark:text-white">
+              <Activity size={16} />
+              <h2 className="text-[14px] font-bold">Recent Activity</h2>
             </div>
-            <select className="bg-gray-50 dark:bg-black/50 border border-gray-200 dark:border-white/10 text-sm rounded-lg px-3 py-1.5 text-gray-600 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+            <select className="bg-transparent border border-gray-200 dark:border-[#27272A] text-[12px] rounded px-2 py-1 text-gray-600 dark:text-gray-300 focus:outline-none focus:border-gray-400 dark:focus:border-gray-500">
               <option>Last 7 days</option>
               <option>Last 30 days</option>
             </select>
@@ -68,12 +68,12 @@ export default async function AdminPanel() {
         </div>
         
         {/* Exchange Rates Area */}
-        <div className="bg-white dark:bg-[#111113] rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col">
-          <div className="p-6 border-b border-gray-100 dark:border-white/5 flex items-center gap-2">
-            <DollarSign className="text-emerald-500" size={20} />
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white">Exchange Rates</h2>
+        <div className="bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-[#27272A] rounded-lg flex flex-col">
+          <div className="p-5 border-b border-gray-200 dark:border-[#27272A] flex items-center gap-2 text-gray-900 dark:text-white">
+            <DollarSign size={16} />
+            <h2 className="text-[14px] font-bold">Exchange Rates</h2>
           </div>
-          <div className="p-6 flex-1">
+          <div className="p-5 flex-1">
             <ExchangeRateAdmin />
           </div>
         </div>

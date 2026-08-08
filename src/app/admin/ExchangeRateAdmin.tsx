@@ -54,27 +54,17 @@ export default function ExchangeRateAdmin() {
 
   return (
     <div className="h-full flex flex-col justify-center">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {['INR', 'GBP', 'EUR'].map((currency, index) => {
-          const glowColors = [
-            'hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:border-indigo-500/50', // Indigo
-            'hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:border-emerald-500/50', // Emerald
-            'hover:shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:border-purple-500/50' // Purple
-          ];
-          const textColors = [
-            'text-indigo-500',
-            'text-emerald-500',
-            'text-purple-500'
-          ];
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {['INR', 'GBP', 'EUR'].map((currency) => {
           return (
-            <div key={currency} className={`group flex flex-col p-6 bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-2xl transition-all duration-500 ${glowColors[index]}`}>
+            <div key={currency} className="group flex flex-col p-4 bg-gray-50 dark:bg-[#18181B] border border-gray-200 dark:border-[#27272A] rounded-lg hover:border-gray-400 dark:hover:border-gray-500 transition-colors">
               <div className="flex items-center justify-between mb-4">
-                <span className={`px-3 py-1 text-xs font-black bg-white dark:bg-[#111113] border border-gray-100 dark:border-white/5 rounded-lg tracking-wider ${textColors[index]}`}>
+                <span className="px-2 py-0.5 text-[11px] font-bold bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-[#27272A] rounded text-gray-900 dark:text-gray-100">
                   {currency}
                 </span>
                 <button 
                   onClick={() => handleUpdate(currency)}
-                  className="text-gray-400 hover:text-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 bg-gray-900 p-2 rounded-full shadow-lg"
+                  className="text-gray-400 hover:text-black dark:hover:text-white transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                   title="Edit Rate"
                 >
                   <Edit2 size={14} />
@@ -82,29 +72,29 @@ export default function ExchangeRateAdmin() {
               </div>
               
               <div>
-                <p className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter">
+                <p className="text-[24px] font-bold text-gray-900 dark:text-white tracking-tight leading-none mb-1">
                   {rates[currency] || 'N/A'}
                 </p>
-                <p className="text-xs font-medium text-gray-400 mt-2 uppercase tracking-widest">Base: 1 USD</p>
+                <p className="text-[11px] font-medium text-gray-500">Base: 1 USD</p>
               </div>
               
               <button 
                 onClick={() => handleUpdate(currency)}
-                className={`mt-6 w-full py-2.5 bg-gray-50 dark:bg-[#111113] border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 text-sm font-bold rounded-xl hover:bg-white dark:hover:bg-white/5 transition-all sm:hidden group-hover:block ${textColors[index]}`}
+                className="mt-4 w-full py-1.5 bg-white dark:bg-[#0A0A0B] border border-gray-200 dark:border-[#27272A] text-gray-700 dark:text-gray-300 text-[12px] font-medium rounded hover:bg-gray-50 dark:hover:bg-[#18181B] transition-colors sm:hidden group-hover:block"
               >
-                Update Rate
+                Update
               </button>
             </div>
           );
         })}
       </div>
-      <div className="mt-8 flex justify-end">
+      <div className="mt-6 flex justify-end">
         <button 
           onClick={fetchRates}
-          className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-indigo-500 transition-colors bg-gray-50 dark:bg-[#111113] border border-gray-200 dark:border-white/10 px-4 py-2 rounded-xl hover:shadow-lg"
+          className="flex items-center gap-2 text-[12px] font-semibold text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors border border-gray-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A0B] px-3 py-1.5 rounded"
         >
-          <RefreshCw size={16} className={isLoading ? "animate-spin" : ""} />
-          Sync Rates
+          <RefreshCw size={14} className={isLoading ? "animate-spin" : ""} />
+          Sync
         </button>
       </div>
     </div>
