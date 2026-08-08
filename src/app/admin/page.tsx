@@ -29,7 +29,7 @@ export default async function AdminDashboard() {
       .filter(o => o.status === 'SUCCESS' && new Date(o.createdAt).toDateString() === d.toDateString())
       .reduce((sum, o) => sum + o.amount, 0);
       
-    return { name: dayName, visits: Math.floor(Math.random() * 1000) + 500, sales: daySales };
+    return { name: dayName, visits: 0, sales: daySales };
   });
 
   // Compute Order Status Data (Last 6 Months)
@@ -120,19 +120,6 @@ export default async function AdminDashboard() {
           </div>
         ))}
       </div>
-
-      {/* Bottom Row: Exchange Rates */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-[#1E1E2D] rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.1)]">
-          <div className="p-5 border-b border-[#2B2B40] flex items-center gap-2">
-            <h2 className="text-[15px] font-semibold text-white">Live Exchange Rates</h2>
-          </div>
-          <div className="p-5">
-            <ExchangeRateAdmin />
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 }

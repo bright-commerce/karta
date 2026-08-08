@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
+import { ImageUploader } from "./ImageUploader";
+
 export default function NewBlogPostPage() {
   async function createPost(formData: FormData) {
     "use server";
@@ -63,8 +65,8 @@ export default function NewBlogPostPage() {
               <input type="text" name="category" placeholder="e.g. Updates, Tutorials" className="w-full px-4 py-2 bg-gray-50 dark:bg-[#151521] border border-gray-200 dark:border-[#2B2B40] rounded-lg focus:outline-none focus:border-[#3699FF] text-gray-900 dark:text-white" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cover Image URL</label>
-              <input type="url" name="imageUrl" placeholder="https://..." className="w-full px-4 py-2 bg-gray-50 dark:bg-[#151521] border border-gray-200 dark:border-[#2B2B40] rounded-lg focus:outline-none focus:border-[#3699FF] text-gray-900 dark:text-white" />
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cover Image</label>
+              <ImageUploader />
             </div>
           </div>
 
