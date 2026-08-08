@@ -11,9 +11,9 @@ import {
   Users, 
   UserPlus, 
   FileText, 
-  HardDriveDownload, 
-  MessageSquare,
-  LogOut,
+  FolderOpen, 
+  Contact,
+  Settings,
   Bell
 } from "lucide-react";
 
@@ -49,8 +49,9 @@ export default async function AdminLayout({
     { name: "Users", href: "/admin/users", icon: Users },
     { name: "Sellers", href: "/admin/sellers", icon: UserPlus },
     { name: "Blog", href: "/admin/blog", icon: FileText },
-    { name: "Downloads", href: "/admin/files", icon: HardDriveDownload },
-    { name: "Contacts", href: "/admin/contacts", icon: MessageSquare, badge: unreadContacts },
+    { name: "File Manager", href: "/admin/files", icon: FolderOpen },
+    { name: "CRM", href: "/admin/contacts", icon: Contact, badge: unreadContacts },
+    { name: "Settings", href: "/admin/settings", icon: Settings },
   ];
 
   return (
