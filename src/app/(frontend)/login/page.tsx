@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./login.module.css";
@@ -27,14 +27,28 @@ export default function LoginPage() {
       if (res?.error) {
         setError("Invalid email or password");
       } else {
-        // Redirect to admin panel after successful login
-        // Check if we have an isolated admin container URL set in env
-        const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL;
-        if (adminUrl) {
-          window.location.href = `${adminUrl.replace(/\/$/, '')}/admin`;
+        // Fetch the session to check their role
+        const session = await getSession();
+        
+        if (session?.user?.role === "ADMIN") {
+          const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL;
+          if (adminUrl) {
+            window.location.href = `${adminUrl.replace(/\/$/, '')}/admin`;
+          } else {
+            router.push("/admin");
+          }
+        } else if (session?.user?.role === "SELLER") {
+          const sellerUrl = process.env.NEXT_PUBLIC_SELLER_URL;
+          if (sellerUrl) {
+            window.location.href = `${sellerUrl.replace(/\/$/, '')}/seller`;
+          } else {
+            router.push("/seller");
+          }
         } else {
-          router.push("/admin");
+          // BUYER role or unknown, redirect to storefront homepage
+          router.push("/");
         }
+        
         router.refresh();
       }
     } catch (err) {
