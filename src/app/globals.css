@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
+/* Cache bust: 2026-08-08 v2 */
 
 :root {
   --background: #ffffff;

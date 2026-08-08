@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import ExchangeRateAdmin from "./ExchangeRateAdmin";
+import ActivityChart from "./ActivityChart";
 import { Users, Package, ShoppingCart, MessageSquare, Activity, DollarSign, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
@@ -61,10 +62,8 @@ export default async function AdminPanel() {
               <option>Last 30 days</option>
             </select>
           </div>
-          <div className="flex-1 p-6 min-h-[300px] flex items-center justify-center">
-            <div className="w-full h-full border-2 border-dashed border-gray-100 dark:border-white/5 rounded-xl flex items-center justify-center bg-gray-50/50 dark:bg-black/20">
-              <p className="text-gray-400 text-sm font-medium">Activity chart integration goes here</p>
-            </div>
+          <div className="flex-1 p-6 min-h-[300px]">
+            <ActivityChart />
           </div>
         </div>
         
