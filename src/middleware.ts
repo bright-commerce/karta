@@ -16,12 +16,24 @@ export function middleware(request: NextRequest) {
   }
 
   if (role === 'ADMIN') {
+    if (path === '/') {
+      return NextResponse.redirect(new URL('/admin', request.url));
+    }
+    if (path.startsWith('/api/auth') || path.startsWith('/login')) {
+      return NextResponse.next();
+    }
     // If this container is deployed as ADMIN, block everything except admin routes
     if (!path.startsWith('/admin') && !path.startsWith('/api/admin')) {
       // Return standard 404 to effectively isolate this container securely
       return NextResponse.rewrite(new URL('/404', request.url));
     }
   } else if (role === 'SELLER') {
+    if (path === '/') {
+      return NextResponse.redirect(new URL('/seller', request.url));
+    }
+    if (path.startsWith('/api/auth') || path.startsWith('/login')) {
+      return NextResponse.next();
+    }
     // If this container is deployed as SELLER, block everything except seller routes
     if (!path.startsWith('/seller') && !path.startsWith('/api/seller')) {
       return NextResponse.rewrite(new URL('/404', request.url));
