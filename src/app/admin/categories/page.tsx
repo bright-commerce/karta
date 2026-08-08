@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,15 @@ export default async function CategoriesAdminPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-black mb-8">Categories</h1>
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-black">Categories</h1>
+          <p className="text-sm text-gray-500 mt-1">Categories are created automatically when assigned to a product.</p>
+        </div>
+        <Link href="/admin/products/new" className="bg-[#3699FF] text-white px-4 py-2 rounded-lg font-medium text-sm hover:opacity-90">
+          + Add Category
+        </Link>
+      </div>
       
       {categories.length === 0 ? (
         <p className="text-gray-500 dark:text-gray-400">No categories found.</p>

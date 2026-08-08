@@ -12,10 +12,9 @@ export default async function ProductsAdminPage() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-black">Products</h1>
-        {/* Placeholder for future Add Product button */}
-        <button className="bg-black text-white px-4 py-2 rounded-lg font-medium text-sm hover:opacity-90">
+        <Link href="/admin/products/new" className="bg-[#3699FF] text-white px-4 py-2 rounded-lg font-medium text-sm hover:opacity-90">
           + Add Product
-        </button>
+        </Link>
       </div>
       
       {products.length === 0 ? (
