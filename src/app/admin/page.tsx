@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import ExchangeRateAdmin from "./ExchangeRateAdmin";
-import { Users, Package, ShoppingCart, MessageSquare, TrendingUp, Activity, CreditCard, DollarSign } from "lucide-react";
+import { Users, Package, ShoppingCart, MessageSquare, Activity, DollarSign, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -14,58 +14,71 @@ export default async function AdminPanel() {
   ]);
 
   const stats = [
-    { label: "Total Users", value: userCount, icon: Users, href: "/admin/users", color: "from-blue-500 to-cyan-400" },
-    { label: "Products", value: productCount, icon: Package, href: "/admin/products", color: "from-purple-500 to-indigo-500" },
-    { label: "Orders", value: orderCount, icon: ShoppingCart, href: "/admin/orders", color: "from-emerald-400 to-teal-500" },
-    { label: "Unread Messages", value: unreadContacts, icon: MessageSquare, href: "/admin/contacts", color: "from-orange-400 to-rose-400" },
+    { label: "Total Users", value: userCount, icon: Users, href: "/admin/users", color: "text-blue-500", bg: "bg-blue-500/10" },
+    { label: "Products", value: productCount, icon: Package, href: "/admin/products", color: "text-purple-500", bg: "bg-purple-500/10" },
+    { label: "Orders", value: orderCount, icon: ShoppingCart, href: "/admin/orders", color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    { label: "Unread Messages", value: unreadContacts, icon: MessageSquare, href: "/admin/contacts", color: "text-rose-500", bg: "bg-rose-500/10" },
   ];
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-black tracking-tight text-gray-900 dark:text-white">Dashboard</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Welcome back. Here's what's happening today.</p>
+          <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">Dashboard Overview</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Here's a summary of what's happening today.</p>
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <Link key={stat.label} href={stat.href} className="group relative bg-white/60 dark:bg-[#111113]/60 backdrop-blur-md p-6 rounded-3xl border border-white/40 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 overflow-hidden">
-            <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${stat.color} opacity-[0.08] dark:opacity-10 rounded-bl-[100px] -z-10 group-hover:scale-110 transition-transform duration-500`}></div>
-            
-            <div className="flex items-center justify-between mb-6">
-              <div className={`p-3.5 rounded-2xl bg-gradient-to-br ${stat.color} text-white shadow-lg shadow-black/10`}>
-                <stat.icon size={24} className="opacity-95" />
+          <Link key={stat.label} href={stat.href} className="group relative bg-white dark:bg-[#111113] p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:shadow-indigo-500/5 hover:-translate-y-1 transition-all duration-300">
+            <div className="flex items-center justify-between mb-4">
+              <div className={`p-3 rounded-xl ${stat.bg} ${stat.color}`}>
+                <stat.icon size={22} strokeWidth={2.5} />
               </div>
+              <ArrowUpRight size={20} className="text-gray-300 dark:text-gray-600 group-hover:text-indigo-500 transition-colors" />
             </div>
-            
             <div>
-              <p className="text-5xl font-black tracking-tight text-gray-900 dark:text-white mb-2">{stat.value}</p>
-              <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">{stat.label}</h3>
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">{stat.label}</h3>
+              <p className="text-4xl font-black tracking-tight text-gray-900 dark:text-white">{stat.value}</p>
             </div>
           </Link>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white dark:bg-[#111113] p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm">
-          <div className="flex items-center gap-2 mb-6">
-            <Activity className="text-indigo-500" size={20} />
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Recent Activity</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Activity Chart Area */}
+        <div className="lg:col-span-2 bg-white dark:bg-[#111113] rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col">
+          <div className="p-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Activity className="text-indigo-500" size={20} />
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white">Recent Activity</h2>
+            </div>
+            <select className="bg-gray-50 dark:bg-black/50 border border-gray-200 dark:border-white/10 text-sm rounded-lg px-3 py-1.5 text-gray-600 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">
+              <option>Last 7 days</option>
+              <option>Last 30 days</option>
+            </select>
           </div>
-          <div className="h-64 flex items-center justify-center border-2 border-dashed border-gray-100 dark:border-white/5 rounded-xl">
-            <p className="text-gray-400 font-medium">Activity chart will appear here</p>
+          <div className="flex-1 p-6 min-h-[300px] flex items-center justify-center">
+            <div className="w-full h-full border-2 border-dashed border-gray-100 dark:border-white/5 rounded-xl flex items-center justify-center bg-gray-50/50 dark:bg-black/20">
+              <p className="text-gray-400 text-sm font-medium">Activity chart integration goes here</p>
+            </div>
           </div>
         </div>
         
-        <div className="bg-white dark:bg-[#111113] p-6 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm">
-          <div className="flex items-center gap-2 mb-6">
+        {/* Exchange Rates Area */}
+        <div className="bg-white dark:bg-[#111113] rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm flex flex-col">
+          <div className="p-6 border-b border-gray-100 dark:border-white/5 flex items-center gap-2">
             <DollarSign className="text-emerald-500" size={20} />
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Exchange Rates</h2>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white">Exchange Rates</h2>
           </div>
-          <ExchangeRateAdmin />
+          <div className="p-6 flex-1">
+            <ExchangeRateAdmin />
+          </div>
         </div>
+        
       </div>
     </div>
   );
