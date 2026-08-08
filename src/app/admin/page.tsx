@@ -1,12 +1,9 @@
-import { prisma } from "@/lib/prisma";
 import ExchangeRateAdmin from "./ExchangeRateAdmin";
 import ActivityChart from "./ActivityChart";
-import { Users, Package, ShoppingCart, MessageSquare, Activity, DollarSign, ArrowUpRight } from "lucide-react";
-import Link from "next/link";
-
-export const dynamic = "force-dynamic";
 import OrderStatusChart from "./OrderStatusChart";
 import { Users, Package, ShoppingCart, DollarSign } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 export default function AdminDashboard() {
   const stats = [
