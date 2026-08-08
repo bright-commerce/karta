@@ -28,16 +28,19 @@ export function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL('/404', request.url));
     }
   } else if (role === 'SELLER') {
-    if (path === '/') {
-      return NextResponse.redirect(new URL('/seller', request.url));
-    }
-    if (path.startsWith('/api/auth') || path.startsWith('/login')) {
+    // Exclude api and auth routes
+    if (path.startsWith('/api') || path.startsWith('/login')) {
       return NextResponse.next();
     }
-    // If this container is deployed as SELLER, block everything except seller routes
-    if (!path.startsWith('/seller') && !path.startsWith('/api/seller')) {
-      return NextResponse.rewrite(new URL('/404', request.url));
+    
+    // If user specifically types /seller/..., redirect them to /... to hide the /seller part
+    if (path.startsWith('/seller')) {
+      const newPath = path.replace(/^\/seller/, '') || '/';
+      return NextResponse.redirect(new URL(newPath, request.url));
     }
+    
+    // Rewrite all other requests to the hidden /seller folder internally
+    return NextResponse.rewrite(new URL(`/seller${path === '/' ? '' : path}`, request.url));
   } else {
     // Default STOREFRONT mode: Block admin and seller routes
     if (
