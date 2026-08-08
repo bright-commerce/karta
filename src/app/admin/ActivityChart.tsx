@@ -2,17 +2,21 @@
 
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { name: 'Mon', sales: 4000, visits: 2400 },
-  { name: 'Tue', sales: 3000, visits: 1398 },
-  { name: 'Wed', sales: 2000, visits: 9800 },
-  { name: 'Thu', sales: 2780, visits: 3908 },
-  { name: 'Fri', sales: 1890, visits: 4800 },
-  { name: 'Sat', sales: 2390, visits: 3800 },
-  { name: 'Sun', sales: 3490, visits: 4300 },
+interface ActivityChartProps {
+  data?: { name: string; visits: number; sales: number }[];
+}
+
+const defaultData = [
+  { name: 'Mon', visits: 2400, sales: 4000 },
+  { name: 'Tue', visits: 1398, sales: 3000 },
+  { name: 'Wed', visits: 9800, sales: 2000 },
+  { name: 'Thu', visits: 3908, sales: 2780 },
+  { name: 'Fri', visits: 4800, sales: 1890 },
+  { name: 'Sat', visits: 3800, sales: 2390 },
+  { name: 'Sun', visits: 4300, sales: 3490 },
 ];
 
-export default function ActivityChart() {
+export default function ActivityChart({ data = defaultData }: ActivityChartProps) {
   return (
     <div className="w-full h-full min-h-[300px]">
       <ResponsiveContainer width="100%" height="100%">

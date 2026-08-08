@@ -2,7 +2,11 @@
 
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
-const data = [
+interface OrderStatusChartProps {
+  data?: { name: string; value: number }[];
+}
+
+const defaultData = [
   { name: 'Jan', value: 8 },
   { name: 'Feb', value: 6 },
   { name: 'Mar', value: 14 },
@@ -11,7 +15,7 @@ const data = [
   { name: 'Jun', value: 7 },
 ];
 
-export default function OrderStatusChart() {
+export default function OrderStatusChart({ data = defaultData }: OrderStatusChartProps) {
   return (
     <div className="w-full h-full min-h-[250px]">
       <ResponsiveContainer width="100%" height="100%">

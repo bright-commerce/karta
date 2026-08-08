@@ -5,12 +5,23 @@ import { Users, Package, ShoppingCart, DollarSign } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminDashboard() {
+import { prisma } from "@/lib/prisma";
+
+export default async function AdminDashboard() {
+  const [userCount, productCount, orderCount, successOrders] = await Promise.all([
+    prisma.user.count(),
+    prisma.product.count(),
+    prisma.order.count(),
+    prisma.order.findMany({ where: { status: "SUCCESS" }, select: { amount: true } })
+  ]);
+
+  const totalRevenue = successOrders.reduce((sum, order) => sum + order.amount, 0);
+
   const stats = [
-    { label: "Total Orders", value: "8052", icon: ShoppingCart, color: "text-[#3699FF]", bg: "bg-[#3699FF]/10", change: "+25%" },
-    { label: "Total Revenue", value: "$6.2K", icon: DollarSign, color: "text-[#F64E60]", bg: "bg-[#F64E60]/10", change: "+15%" },
-    { label: "New Users", value: "1.3K", icon: Users, color: "text-[#1BC5BD]", bg: "bg-[#1BC5BD]/10", change: "-10%" },
-    { label: "Sold Items", value: "956", icon: Package, color: "text-[#FFA800]", bg: "bg-[#FFA800]/10", change: "-14%" },
+    { label: "Total Orders", value: orderCount.toString(), icon: ShoppingCart, color: "text-[#3699FF]", bg: "bg-[#3699FF]/10", change: "+12%" },
+    { label: "Total Revenue", value: `$${totalRevenue.toFixed(2)}`, icon: DollarSign, color: "text-[#F64E60]", bg: "bg-[#F64E60]/10", change: "+8%" },
+    { label: "Total Users", value: userCount.toString(), icon: Users, color: "text-[#1BC5BD]", bg: "bg-[#1BC5BD]/10", change: "+24%" },
+    { label: "Total Products", value: productCount.toString(), icon: Package, color: "text-[#FFA800]", bg: "bg-[#FFA800]/10", change: "+5%" },
   ];
 
   return (
